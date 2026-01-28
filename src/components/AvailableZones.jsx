@@ -21,6 +21,7 @@ const AvailableZones = () => {
   const [search, setSearch] = useState("");
   const [activeTier, setActiveTier] = useState("All");
 
+  /* 🔍 Filter logic */
   const filteredZones = zones
     .filter((zone) => {
       const matchesTier =
@@ -33,7 +34,8 @@ const AvailableZones = () => {
       const zoneParts = zone.name.toLowerCase().split("-");
 
       const matchesParts = queryParts.every(
-        (part, index) => !part || (zoneParts[index] && zoneParts[index].startsWith(part))
+        (part, index) =>
+          !part || (zoneParts[index] && zoneParts[index].startsWith(part))
       );
 
       return matchesParts && matchesTier;
@@ -51,9 +53,9 @@ const AvailableZones = () => {
   const activeZone = zones.find((z) => z.id === active);
 
   return (
-    <div className="overflow-y-scroll h-screen pb-20 flex flex-col items-center bg-gray-900">
+    <div className="overflow-y-scroll h-screen pb-20 flex  flex-col items-center bg-gray-900">
       <h1 className="text-white text-xl font-mono m-10">
-        <i className="fi fi-rr-layers"></i> Available Zones
+        Available Zones
       </h1>
 
       {/* 🔍 Search */}
@@ -80,13 +82,13 @@ const AvailableZones = () => {
         ))}
       </div>
 
-      {/* 📦 LEFT SIDEBAR */}
+      {/* 📦 Zone List */}
       {filteredZones.length > 0 ? (
         filteredZones.map((zone) => (
           <div
             key={zone.id}
             onClick={() => setActive(zone.id)}
-            className={`w-96 m-4 pb-8 rounded-xl cursor-pointer transition-colors ${
+            className={`w-80 m-4 pb-8 rounded-xl cursor-pointer border border-blue-300 transition-colors ${
               active === zone.id ? "bg-purple-700" : "bg-slate-700"
             }`}
           >
@@ -94,50 +96,64 @@ const AvailableZones = () => {
               <h1 className="text-xl pt-2 text-white">{zone.name}</h1>
               <p className="text-sm text-gray-300">{zone.tier}</p>
 
-              {/* 📦 Numbered Chests */}
               <div className="flex flex-row ms-10">
                 {zone.chests.map((chest, index) => (
-                  <ChestBadge key={index} icon={chest.icon} count={chest.count} />
+                  <ChestBadge 
+                    key={index}
+                    icon={chest.icon}
+                    count={chest.count}
+                  />
                 ))}
               </div>
             </div>
           </div>
         ))
       ) : (
-        <p className="text-red-600 text-2xl mt-40">Zone Doesn't Exist</p>
+        <p className="text-gray-400 text-2xl mt-40 animate-pulse">Zone Doesn't Exist</p>
       )}
-{activeZone && (
-  <div className="flex-1 overflow-hidden w-full cursor-pointer hidden sm:block">
-    <img
-      src={activeZone.map}
-      alt={activeZone.name}
-      onClick={() => setZoomed(!zoomed)}
-      className={`absolute start-[35%] top-40 h-[76%] transition-transform ${
-        zoomed ? "scale-125" : "scale-100"
-      }`}
-    />
 
-    {/* ℹ MINI INFO CARD */}
-    <div
-      className={`w-80 ms-6 m-4 bg-slate-700 absolute top-[75%] start-[35%] pb-2 rounded-2xl ${
-        zoomed ? "hidden" : "block"
-      }`}
-    >
-      <div className="ms-4">
-        <h1 className="text-xl pt-2 text-white">{activeZone.name}</h1>
-        <p className="text-sm text-gray-300">{activeZone.tier}</p>
+      {/* 🗺️ Select hint */}
+      {!activeZone && (
+        <p  className="text-gray-400 font-mono mt-20 text-center start-[50rem]  absolute ">
+          Select a zone to view map
+        </p>
+      )}
 
-        {/* Numbered Chests */}
-        <div className="flex flex-row">
-          {activeZone.chests.map((chest, index) => (
-            <ChestBadge key={index} icon={chest.icon} count={chest.count} />
-          ))}
+      {/* 🗺️ Map View */}
+      {activeZone && (
+        <div className="flex-1 overflow-hidden w-full cursor-pointer hidden sm:block">
+          <img
+            src={activeZone.map}
+            alt={activeZone.name}
+            onClick={() => setZoomed(!zoomed)}
+            className={`absolute start-[35%] top-40 h-[76%] transition-transform ${
+              zoomed ? "scale-125" : "scale-100"
+            }`}
+          />
+
+          {/* ℹ Info Card
+          <div
+            className={`w-72 ms-6 m-4 bg-slate-700 absolute top-[75%] start-[35%] pb-2 rounded-2xl ${
+              zoomed ? "hidden" : "block"
+            }`}
+          >
+            <div className="ms-4">
+              <h1 className="text-xl pt-2 text-white">{activeZone.name}</h1>
+              <p className="text-sm text-gray-300">{activeZone.tier}</p>
+
+              <div className="flex flex-row">
+                {activeZone.chests.map((chest, index) => (
+                  <ChestBadge
+                    key={index}
+                    icon={chest.icon}
+                    count={chest.count}
+                  />
+                ))}
+              </div>
+            </div>
+          </div> */}
         </div>
-      </div>
-    </div>
-  </div>
-)}
-
+      )}
     </div>
   );
 };
