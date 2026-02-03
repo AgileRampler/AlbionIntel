@@ -1,23 +1,30 @@
 import React from 'react'
 import logo from '../assets/albion_mapper_icon.svg'
 import AvailableZones from './AvailableZones.jsx'
+import {  useNavigate } from 'react-router-dom';
+
 
 const AlbionMapper = () => {
+
+ const navigate = useNavigate();
+ 
   return (
     <div className="min-h-screen bg-gray-900">
       
       {/* Header */}
       <div className="relative flex items-center border-b-2 h-24 px-6">
-        <img
+        <img  onClick={()=> navigate("/")}
           src={logo}
           alt="logo"
-          className="w-12 h-12"
+          className="w-12 h-12 cursor-pointer"
         />
 
         <div className="ml-4">
-          <h1 className="text-white text-2xl font-mono">
-            AvaIntel
-          </h1>
+         <div >
+            <h1 onClick={()=> navigate("/")}  className="text-white text-2xl cursor-pointer font-mono">
+              AvaIntel
+            </h1>
+         </div>
           <p className="text-white text-sm font-mono">
             Your Avalonian Roads Intel
           </p>

@@ -121,12 +121,12 @@ const AvailableZones = () => {
 
       {/* 🗺️ Map View */}
       {activeZone && (
-        <div className="flex-1 overflow-hidden w-full cursor-pointer hidden sm:block">
+        <div className="flex-1 overflow-hidden w-full cursor-pointer  hidden sm:block">
           <img
             src={activeZone.map}
             alt={activeZone.name}
             onClick={() => setZoomed(!zoomed)}
-            className={`absolute start-[35%] top-40 h-[76%] transition-transform ${
+            className={` absolute start-[28%] top-40 h-[76%] transition-transform ${
               zoomed ? "scale-125" : "scale-100"
             }`}
           />
